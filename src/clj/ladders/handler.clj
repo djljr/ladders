@@ -22,9 +22,11 @@
      [:meta {:charset "utf-8"}]
      [:meta {:name "viewport"
              :content "width=device-width, initial-scale=1"}]
+     (include-css "//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css")
      (include-css (if (env :dev) "css/site.css" "css/site.min.css"))]
     [:body
      mount-target
+     (include-js "//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js")
      (include-js "js/app.js")]]))
 
 (def cards-page

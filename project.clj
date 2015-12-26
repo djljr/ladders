@@ -74,8 +74,7 @@
                                    
                                   [devcards "0.2.0-8"
                                    :exclusions [org.clojure/tools.reader]] 
-                                  [pjstadig/humane-test-output "0.7.0"]
-                                  ]
+                                  [pjstadig/humane-test-output "0.7.0"]]
 
                    :source-paths ["env/dev/clj"]
                    :plugins [[lein-figwheel "0.5.0-2"
@@ -105,10 +104,8 @@
                               :nrepl-port 7002
                               :nrepl-middleware ["cemerick.piggieback/wrap-cljs-repl"
                                                  "cider.nrepl/cider-middleware"
-                                                 "refactor-nrepl.middleware/wrap-refactor"
-                                                 ]
-                              :css-dirs ["resources/public/css"]
-                              :ring-handler ladders.handler/app}
+                                                 "refactor-nrepl.middleware/wrap-refactor"]
+                              :css-dirs ["resources/public/css"]}
 
                    :env {:dev true}
 
@@ -125,14 +122,12 @@
                                                               :asset-path "js/devcards_out"
                                                               :output-to "target/cljsbuild/public/js/app_devcards.js"
                                                               :output-dir "target/cljsbuild/public/js/devcards_out"
-                                                              :source-map-timestamp true}}
-                                        }
+                                                              :source-map-timestamp true}}}
                                :test-commands {"unit" ["phantomjs" :runner
                                                        "test/vendor/es5-shim.js"
                                                        "test/vendor/es5-sham.js"
                                                        "test/vendor/console-polyfill.js"
-                                                       "target/test.js"]}
-                               }}
+                                                       "target/test.js"]}}}
 
              :uberjar {:hooks [minify-assets.plugin/hooks]
                        :prep-tasks ["compile" ["cljsbuild" "once"]]
