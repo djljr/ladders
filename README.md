@@ -6,7 +6,7 @@ Create a general-purpose, beautiful, customizable leaderboard.
 
 ## REPL
 
-You'll need 2 repls to do this properly. First start a figwheel repl using `lein figwheel`. You need to do this from the terminal for now since you don't get the `profile.clj` merging if you start it from a clojure repl using `figwheel-sidecar`. Still working on this one. It is highly recommended to use `rlwrap` for this repl to get normal readline functionality.
+You'll need 2 repls to do this properly. First start a figwheel repl using `lein figwheel`. You need to do this from the terminal for now since you don't get the `project.clj` profile merging if you start it from a repl using `figwheel-sidecar`. Still working on this one. It is highly recommended to use `rlwrap` for this repl to get normal readline functionality.
 
 Second start up a clojure repl using `lein repl` from a terminal or `M-x cider-jack-in` from emacs. Then start the web server using `(start-server)` - this command lives in the `ladders.repl` package in `env/dev/ladders/clj/repl.clj`. You should now be able to see the running app on [localhost:3000].
 
