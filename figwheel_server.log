@@ -1,0 +1,8 @@
+[0mCompiling "target/cljsbuild/public/js/app.js" from ("src/cljs" "src/cljc" "env/dev/cljs")...
+notifying browser that file changed:  target/cljsbuild/public/js/out/goog/deps.js
+notifying browser that file changed:  target/cljsbuild/public/js/out/cljs_deps.js
+notifying browser that file changed:  out/ladders/core.js
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 1.226 seconds.[0m
+[0mCompiling "target/cljsbuild/public/js/app.js" from ("src/cljs" "src/cljc" "env/dev/cljs")...
+notifying browser that file changed:  out/ladders/core.js
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.407 seconds.[0m
