@@ -26,13 +26,24 @@
    (map-indexed ranking-row rankings)])
 
 (defn home-page []
-  [:div [:h2 "Current Rankings"]
-        [:h3 "Week 1"]
+  [:div
+   [:div "Home | " [:a {:href "/users"} "Users"]]
+   [:h2 "Current Rankings"]
+   [:h3 "Week 1"]
    [rankings-component rankings]])
 
-(defn about-page []
-  [:div [:h2 "About ladders"]
-   [:div [:a {:href "/"} "go to the home page"]]])
+(defn add-user-page []
+  [:div
+   [:div [:a {:href "/"} "Home"] " | Users"]
+   [:h2 "Player Information"]
+   [:form
+    [:fieldset {:class "form-group"}
+     [:label "Username"]
+     [:input {:type "text" :class "form-control"}]]
+    [:fieldset {:class "form-group"}
+     [:label "Name"]
+     [:input {:type "text" :class "form-control"}]]
+    [:button {:type "submit" :class "btn btn-primary pull-right"} "Add User"]]])
 
 (defn current-page []
   [:div [(session/get :current-page)]])
@@ -44,8 +55,8 @@
 (secretary/defroute "/" []
   (session/put! :current-page #'home-page))
 
-(secretary/defroute "/about" []
-  (session/put! :current-page #'about-page))
+(secretary/defroute "/users" []
+  (session/put! :current-page #'add-user-page))
 
 ;; -------------------------
 ;; Initialize app
