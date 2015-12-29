@@ -5,19 +5,14 @@
               [accountant.core :as accountant]
               [cljs.pprint :as pprint]))
 
-(defn assoc-if [pred map key val]
-  (if (pred)
-    (assoc map key val)
-    map))
-
 (defn menu [selected]
   (let [menu-options [["/" "Home"]
                       ["/users" "Users"]
                       ["/result" "Add Challenge"]]]
     [:ul {:class "nav nav-pills"}
      (map (fn [[url option-name]]
-            (let [li-attrs {:role "presentation"}
-                  li-attrs (assoc-if #(= selected option-name) li-attrs :class "active")]
+            (let [class (if (= selected option-name) "active" "")
+                  li-attrs {:role "presentation" :class class}]
               ^{:key url} [:li li-attrs [:a {:href url} option-name]]))
           menu-options)]))
 
