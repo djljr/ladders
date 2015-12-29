@@ -2,7 +2,22 @@
     (:require [reagent.core :as reagent :refer [atom]]
               [reagent.session :as session]
               [secretary.core :as secretary :include-macros true]
-              [accountant.core :as accountant]))
+              [accountant.core :as accountant]
+              [cljs.pprint :as pprint]))
+
+(defn menu [selected]
+  (let [menu-options [["/" "Home"]
+                      ["/users" "Users"]
+                      ["/result" "Add Challenge"]]]
+    [:ul {:class "nav nav-pills"}
+     (map (fn [[url option-name]]
+            (let [class (if (= selected option-name) "active" "")
+                  li-attrs {:role "presentation" :class class}]
+              ^{:key url} [:li li-attrs [:a {:href url} option-name]]))
+          menu-options)]))
+
+(defn current-page []
+  [:div [(session/get :current-page)]])
 
 (def rankings
   [{:player "Jeff" :stats {:wins 10 :losses 15}}
@@ -26,17 +41,50 @@
    (map-indexed ranking-row rankings)])
 
 (defn home-page []
-  [:div [:h2 "Current Rankings"]
-        [:h3 "Week 1"]
+  [:div
+   [menu "Home"]
+   [:h2 "Current Rankings"]
+   [:h3 "Week 1"]
    [rankings-component rankings]])
 
-(defn about-page []
-  [:div [:h2 "About ladders"]
-   [:div [:a {:href "/"} "go to the home page"]]])
+(defn add-user-page []
+  [:div
+   [menu "Users"]
+   [:h2 "Player Information"]
+   [:form
+    [:fieldset {:class "form-group"}
+     [:label "Username"]
+     [:input {:type "text" :class "form-control"}]]
+    [:fieldset {:class "form-group"}
+     [:label "Name"]
+     [:input {:type "text" :class "form-control"}]]
+    [:button {:type "submit" :class "btn btn-primary pull-right"} "Add User"]]])
 
-(defn current-page []
-  [:div [(session/get :current-page)]])
-
+(defn add-challenge-result-page []
+  [:div
+   [menu "Add Challenge"]
+   [:h2 "Add Challenge"]
+   [:form
+    [:fieldset {:class "form-group"}
+     [:label "Player 1"]
+     [:select {:class "form-control"}
+      [:option "Jeff"]
+      [:option "Dennis"]]]
+    [:h3 "VS"]
+    [:fieldset {:class "form-group"}
+     [:label "Player 2"]
+     [:select {:class "form-control"}
+      [:option "Jeff"]
+      [:option "Dennis"]]]
+    [:fieldset {:class "form-group"}
+     [:label "Winner"]
+     [:div {:class "radio"}
+      [:label
+       [:input {:type "radio" :name "winner"} "Player 1"]]]
+     [:div {:class "radio"}
+      [:label
+       [:input {:type "radio" :name "winner"} "Player 2"]]]]
+    [:button {:type "submit" :class "btn btn-primary pull-right"} "Update"]]])
 
 ;; -------------------------
 ;; Routes
@@ -44,8 +92,11 @@
 (secretary/defroute "/" []
   (session/put! :current-page #'home-page))
 
-(secretary/defroute "/about" []
-  (session/put! :current-page #'about-page))
+(secretary/defroute "/users" []
+  (session/put! :current-page #'add-user-page))
+
+(secretary/defroute "/result" []
+  (session/put! :current-page #'add-challenge-result-page))
 
 ;; -------------------------
 ;; Initialize app
