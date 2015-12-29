@@ -4,12 +4,31 @@
               [secretary.core :as secretary :include-macros true]
               [accountant.core :as accountant]))
 
-;; -------------------------
-;; Views
+(def rankings
+  [{:player "Jeff" :stats {:wins 10 :losses 15}}
+   {:player "Dennis" :stats {:wins 9 :losses 25}}])
+
+(defn ranking-row [rank player]
+  ^{:key (:player player)}
+  [:tr
+   [:td (inc rank)]
+   [:td (:player player)]
+   [:td (-> player :stats :wins)]
+   [:td (-> player :stats :losses)]])
+
+(defn rankings-component [rankings]
+  [:table {:class "table table-hover"}
+   [:tr
+    [:th "Ranking"]
+    [:th "Player"]
+    [:th "Wins"]
+    [:th "Losses"]]
+   (map-indexed ranking-row rankings)])
 
 (defn home-page []
-  [:div [:h2 "Welcome to ladders"]
-   [:div [:a {:href "/about"} "go to about page"]]])
+  [:div [:h2 "Current Rankings"]
+        [:h3 "Week 1"]
+   [rankings-component rankings]])
 
 (defn about-page []
   [:div [:h2 "About ladders"]
@@ -17,6 +36,7 @@
 
 (defn current-page []
   [:div [(session/get :current-page)]])
+
 
 ;; -------------------------
 ;; Routes
