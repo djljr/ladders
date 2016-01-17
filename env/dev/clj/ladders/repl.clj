@@ -42,3 +42,16 @@
       (recur (+ n (count (:tx-data  @(d/transact conn tx))))
              more)
       {:datoms n})))
+
+;; holding area for useful forms to send to the repl
+(comment
+  (def uri "datomic:free://localhost:4334/ladders")
+  (def conn (d/connect uri))
+  (def player {:db/id (d/tempid :db.part/user)
+               :player/email "dennis@example.com"
+               :player/firstName "Dennis"
+               :player/lastName "Lipovsky"})
+  (d/transact conn player)
+  (def db (d/db conn))
+  (d/pull db '[*] [:player/email "dennis@example.com"])
+  )
