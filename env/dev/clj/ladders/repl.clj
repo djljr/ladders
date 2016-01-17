@@ -51,7 +51,16 @@
                :player/email "dennis@example.com"
                :player/firstName "Dennis"
                :player/lastName "Lipovsky"})
-  (d/transact conn player)
+  (d/transact conn [player])
   (def db (d/db conn))
   (d/pull db '[*] [:player/email "dennis@example.com"])
+  (def db-player (d/q '[:find ?player . ;. means there is exactly 1
+                        :where
+                        [?player :player/firstName "Dennis"]]
+                      db))
+  (d/pull db '[:player/firstName :player/lastName :player/email] db-player)
+  (d/q '[:find (pull ?player [:player/firstName :player/lastName :player/email]) .
+         :where
+         [?player :player/firstName "Dennis"]]
+       db)
   )
