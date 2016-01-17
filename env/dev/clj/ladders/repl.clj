@@ -1,4 +1,6 @@
 (ns ladders.repl
+  (:require [datomic.api :as d]
+            [ladders.db :as db])
   (:use ladders.handler
         ring.server.standalone
         [ring.middleware file-info file]))
@@ -30,3 +32,13 @@
 (defn stop-server []
   (.stop @server)
   (reset! server nil))
+
+(defn transact-all
+  "Run all transactions from coll"
+  [conn coll]
+  (loop [n 0
+         [tx & more] coll]
+    (if tx
+      (recur (+ n (count (:tx-data  @(d/transact conn tx))))
+             more)
+      {:datoms n})))
