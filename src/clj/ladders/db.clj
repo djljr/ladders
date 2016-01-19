@@ -1,5 +1,17 @@
 (ns ladders.db
-  (:require [datomic.api :as d]))
+  (:require [datomic.api :as d]
+            [ladders.config :as conf]))
+
+(def uri (:datomic-uri conf/config))
+
+(defonce conn (atom nil))
+
+(defn connect []
+  (reset! conn (d/connect uri)))
+
+(defn transact [data]
+  (if-not (nil? @conn)
+    (d/transact @conn data)))
 
 (def schema [[ ;; player
               {:db/id #db/id[:db.part/db]
@@ -58,3 +70,5 @@
                :db/cardinality :db.cardinality/one
                :db/index true
                :db.install/_attribute :db.part/db}]])
+
+

@@ -7,6 +7,23 @@
 
 (defonce server (atom nil))
 
+(defn transact-schema [conn schema]
+  (for [tx-data schema]
+    @(d/transact conn tx-data)))
+
+(def test-data
+  [{:db/id (d/tempid :db.part/user)
+    :player/email "dennis@example.com"
+    :player/firstName "Dennis"
+    :player/lastName "Lipovsky"}])
+
+(defn create-database []
+  (d/delete-database db/uri)
+  (d/create-database db/uri)
+  (db/connect)
+  (transact-schema @db/conn db/schema)
+  (db/transact test-data))
+
 (defn get-handler []
   ;; #'app expands to (var app) so that when we reload our code,
   ;; the server is forced to re-resolve the symbol in the var
@@ -32,16 +49,6 @@
 (defn stop-server []
   (.stop @server)
   (reset! server nil))
-
-(defn transact-all
-  "Run all transactions from coll"
-  [conn coll]
-  (loop [n 0
-         [tx & more] coll]
-    (if tx
-      (recur (+ n (count (:tx-data  @(d/transact conn tx))))
-             more)
-      {:datoms n})))
 
 ;; holding area for useful forms to send to the repl
 (comment
