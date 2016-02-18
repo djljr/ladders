@@ -7,8 +7,8 @@
 
 (defonce server (atom nil))
 
-(defn transact-schema [conn schema]
-  (for [tx-data schema]
+(defn transact [conn datoms]
+  (for [tx-data datoms]
     @(d/transact conn tx-data)))
 
 (def test-data
@@ -21,8 +21,7 @@
   (d/delete-database db/uri)
   (d/create-database db/uri)
   (db/connect)
-  (transact-schema @db/conn db/schema)
-  (db/transact test-data))
+  (transact @db/conn (concat db/schema test-data)))
 
 (defn get-handler []
   ;; #'app expands to (var app) so that when we reload our code,
@@ -53,12 +52,18 @@
 ;; holding area for useful forms to send to the repl
 (comment
   (def uri "datomic:free://localhost:4334/ladders")
+
+  (def uri "datomic:mem://ladders")
+  (d/create-database uri)
   (def conn (d/connect uri))
+
   (def player {:db/id (d/tempid :db.part/user)
                :player/email "dennis@example.com"
                :player/firstName "Dennis"
                :player/lastName "Lipovsky"})
+
   (d/transact conn [player])
+
   (def db (d/db conn))
   (d/pull db '[*] [:player/email "dennis@example.com"])
   (def db-player (d/q '[:find ?player . ;. means there is exactly 1
