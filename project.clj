@@ -19,7 +19,8 @@
                  [org.clojure/clojurescript "1.7.170" :scope "provided"]
                  [secretary "1.2.3"]
                  [venantius/accountant "0.1.5"
-                  :exclusions [org.clojure/tools.reader]]]
+                  :exclusions [org.clojure/tools.reader]]
+                 [com.datomic/datomic-free "0.9.5153"]]
 
   :plugins [[lein-environ "1.0.1"]
             [lein-cljsbuild "1.1.1"]
@@ -54,7 +55,6 @@
                                         :pretty-print  true}}}}
 
   :profiles {:dev {:repl-options {:init-ns ladders.repl}
-
                    :dependencies [[ring/ring-mock "0.3.0"]
                                   [ring/ring-devel "1.4.0"]
                                   [lein-figwheel "0.5.0-2"
@@ -75,7 +75,7 @@
                                   [devcards "0.2.0-8"
                                    :exclusions [org.clojure/tools.reader]] 
                                   [pjstadig/humane-test-output "0.7.0"]]
-
+                   :resource-paths ["env/dev/resources"]
                    :source-paths ["env/dev/clj"]
                    :plugins [[lein-figwheel "0.5.0-2"
                               :exclusions [org.clojure/core.memoize
@@ -132,6 +132,7 @@
              :uberjar {:hooks [minify-assets.plugin/hooks]
                        :prep-tasks ["compile" ["cljsbuild" "once"]]
                        :env {:production true}
+                       :resource-paths ["env/prod/resources"]
                        :aot :all
                        :omit-source true
                        :cljsbuild {:jar true
