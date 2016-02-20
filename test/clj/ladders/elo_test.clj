@@ -25,3 +25,17 @@
     (testing "each new rating is as expected"
       (is (= 1465 next-a))
       (is (= 1535 next-b)))))
+
+(deftest next-round-returns-properly-extended-map
+  (let [before {:mark 1500, :dennis 1500, :jeff 1500}
+        expected {:mark 1512, :dennis 1488, :jeff 1500}]
+    (is (= expected (next-round before :mark :dennis)))))
+
+(deftest many-rounds-returns-proper-map
+  (let [before {:mark 1512, :dennis 1488, :jeff 1500}
+        expected {:mark 1523, :dennis 1490, :jeff 1487}]
+    (is (= expected (many-rounds before [[:mark :dennis] [:dennis :jeff]])))))
+
+(deftest many-rounds-uses-default-properly
+  (let [expected {:mark 1512, :dennis 1500, :jeff 1488}]
+    (is (= expected (many-rounds [[:mark :dennis] [:dennis :jeff]])))))

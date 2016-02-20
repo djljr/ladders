@@ -36,3 +36,28 @@
   (let [[exp-winner exp-loser] (expected rating-winner rating-loser)]
     [(next-rating rating-winner k-factor exp-winner 1)
      (next-rating rating-loser k-factor exp-loser 0)]))
+
+(def initial-rating 1500)
+
+;; given a map of player_ids to their ratings, as well as the ids for a winner
+;; and a loser, this function will return an updated map with the updated
+;; ratings for the players that played.  If a player is not include in the
+;; ratings map then the initial-rating will be used as their starting point.
+(defn next-round [ratings winner loser]
+  (let [winner-before (get ratings winner initial-rating)
+        loser-before (get ratings loser initial-rating)]
+    (->> (next-ratings winner-before loser-before)
+         (zipmap [winner loser])
+         (merge ratings))))
+
+;; given a series of game results and initial ratings this function will return
+;; a map of player_id to their current rating.  results is a col of the form
+;; [[winner loser] [winner loser]...]
+(defn many-rounds
+  ([results] (many-rounds {} results))
+  ([initial-ratings results]
+   (reduce
+    (fn [ratings result]
+      (next-round ratings (first result) (second result)))
+    initial-ratings
+    results)))
