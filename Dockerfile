@@ -1,7 +1,7 @@
 FROM java:8-jre
 
 # Getting Datomic Free
-ENV DATOMIC_VERSION 0.9.5344
+ENV DATOMIC_VERSION 0.9.5350
 COPY setup-datomic.sh /
 RUN chmod +x /setup-datomic.sh && /setup-datomic.sh
 
