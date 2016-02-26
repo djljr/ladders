@@ -11,3 +11,6 @@ pom.xml.asc
 .lein-failures
 .nrepl-port
 datomic-free*/
+.idea/
+*.iml
+figwheel_server.log
