@@ -1,0 +1,1 @@
+{:datomic-uri "datomic:sql://ladders?jdbc:postgresql://<pg-host>:5432/ladders?username=datomic&password=datomic"}

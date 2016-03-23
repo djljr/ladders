@@ -1,6 +1,7 @@
 (ns ladders.repl
   (:require [datomic.api :as d]
-            [ladders.db :as db])
+            [ladders.db :as db]
+            [clojure.java.io :as io])
   (:use ladders.handler
         ring.server.standalone
         [ring.middleware file-info file]))
@@ -10,6 +11,8 @@
 (defn transact [conn datoms]
   (for [tx-data datoms]
     @(d/transact conn tx-data)))
+
+(def schema (-> "schema.edn" io/resource slurp read-string))
 
 (def test-data
   [{:db/id (d/tempid :db.part/user)
@@ -21,7 +24,7 @@
   (d/delete-database db/uri)
   (d/create-database db/uri)
   (db/connect)
-  (transact @db/conn (concat db/schema test-data)))
+  (transact @db/conn (concat schema test-data)))
 
 (defn get-handler []
   ;; #'app expands to (var app) so that when we reload our code,

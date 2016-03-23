@@ -4,6 +4,18 @@ Create a general-purpose, beautiful, customizable leaderboard.
 
 # Development Environment
 
+## Datomic
+
+You have two options with the free version of datomic. Either use an in-memory database, or start the free transactor to write to a file.
+
+### Starting a Transactor
+
+After downloading and unzipping the relevant version of datomic, you need to start the transactor. You can base your starting config off of the file in `config/samples/free-transactor-template.properties`. If you make a copy of it to `config/free-transactor.properties` then you can start it with:
+
+```
+./bin/transactor config/free-transactor.properties
+```
+
 ## REPL
 
 You'll need 2 repls to do this properly. First start a figwheel repl using `lein figwheel`. You need to do this from the terminal for now since you don't get the `project.clj` profile merging if you start it from a repl using `figwheel-sidecar`. Still working on this one. It is highly recommended to use `rlwrap` for this repl to get normal readline functionality.
@@ -13,6 +25,10 @@ Second start up a clojure repl using `lein repl` from a terminal or `M-x cider-j
 ## Dev Cards
 
 From the figwheel repl, invoke `(switch-to-build devcards)` and the build will switch from the `app` to `devcards`. You can see the cards on [localhost:3000/cards]. You can go back by invoking `(switch-to-build app)`.
+
+# Production Deployment
+
+For this you will likely want to use the free tier of datomic pro and a sql database for persistence.
 
 # Goals
 
