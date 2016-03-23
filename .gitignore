@@ -14,3 +14,4 @@ datomic-free*/
 .idea/
 *.iml
 figwheel_server.log
+config.edn

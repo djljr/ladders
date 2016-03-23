@@ -6,6 +6,9 @@
 
 (defonce conn (atom nil))
 
+(defn create []
+  (d/create-database uri))
+
 (defn connect []
   (reset! conn (d/connect uri)))
 
@@ -58,7 +61,7 @@
                :db/cardinality :db.cardinality/one
                :db.install/_attribute :db.part/db}
               {:db/id #db/id[:db.part/db]
-               :db/ident :participant/place
+               :db/ident :participant/score
                :db/valueType :db.type/long
                :db/cardinality :db.cardinality/one
                :db/index true
@@ -70,5 +73,3 @@
                :db/cardinality :db.cardinality/one
                :db/index true
                :db.install/_attribute :db.part/db}]])
-
-
